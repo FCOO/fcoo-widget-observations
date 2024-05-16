@@ -1,0 +1,110 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="da" style="font-size: 100%">
+<head>
+    <title>fcoo.dk - fcoo-widget-observations - Demo</title>
+	<meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta http-equiv='x-dns-prefetch-control' content='on'>
+	<meta name='copyright' content='FCOO'>
+	<meta name='owner' content='FCOO'>
+
+    <link  href="bower_components.css" rel="stylesheet">	
+    <link  href="../src/fcoo-widget-observations.css" rel="stylesheet">	
+    <style>
+        html, body { width:100%; height:100%}
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;    
+            overflow: auto;
+        }   
+    
+        div.test {
+            display: none;    
+            border: 1px solid black;
+            margin: 10px;
+        }    
+
+        #theList {
+            display: flex;
+            flex-direction: column;
+        }        
+    </style>      
+</head>
+
+<body>
+	<script>
+        window.fcoo = window.fcoo || {};
+        window.fcoo.DEMO_VERSION = true;
+        window.fcoo.DEV_VERSION = true;
+	</script>
+	<script src="bower_components.js"></script>
+	<script src="../src/fcoo-widget-observations.js"></script>
+	<script>
+        $.BSMODAL_USE_SQUARE_ICONS = true;
+        
+        window.bsIsTouch = false;
+        window.bsIsTouch = (window.location.search =='?touch');        
+
+        //TEMP: No access to data-files on AWS. Read from old location instead 
+        window.fcoo.path.setPath({host: 'bal.fcoo.dk'});
+    
+        const body = $('body');
+        let $list = $('<div id="theList"></div>').appendTo(body);
+
+        new Sortable($list.get(0), {
+            animation: 150,
+            //swapThreshold: 1,
+            ghostClass: 'modal-dragging'
+        });        
+        
+        
+        let fcooObservation;
+        function onLoad(){
+            
+            let observationGroupId = 'CURRENT_SURFACE';
+            var obsGroup = fcooObservation.observationGroups[observationGroupId];
+
+//HER               console.log( fcooObservation, obsGroup );                
+            
+            
+            $.each( obsGroup.locations, (id, location) => {
+//                console.log(location);
+                location
+                    .getWidget(observationGroupId)
+                    .create().appendTo($list);                    
+            });                
+        }
+
+
+
+
+
+        $(function() { 
+            fcooObservation = new window.fcoo.FCOOObservations({
+                fileName:[
+                    //'observations-sealevel.json',
+                    // 'observations-wind_TEST.json', 
+                    'observations-current.json'
+                ],
+
+                lastObservationFileName : ['LastObservations_SEALVL.json', 'LastObservations_CURRENT.json'],
+                geoJSONOptions: {
+                    pane: 'observations'
+                }
+            });
+
+            fcoo.promiseList.options.finally = function(){
+                fcoo.globalSetting.load(null, function(){
+                    i18next.changeLanguage('da');
+                    onLoad();
+            });
+        };
+
+        fcoo.promiseList.promiseAll();
+    });
+    
+    
+    </script>
+</body>
+</html>
