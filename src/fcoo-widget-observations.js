@@ -34,8 +34,8 @@
     nsWidget.contentTextValue = function( $content/*, widgetOptions */){
         $content.append(
             $('<span/>')._bsAddHtml({
-textClass: 'THE_VALUE fw-bold',
-text: 'Her kommer VALUE',
+                textClass: 'THE_VALUE fw-bold',
+                text: ' ',
             })
         );
     },
@@ -64,8 +64,7 @@ text: 'Her kommer VALUE',
                         let parts = station.getVectorFormatParts(dataSet, false).find( (part) => part.vectorParameterId == param.id );
                         if (parts){
                             widget.setDirection(parts.direction);
-
-widget.$container.find('.THE_VALUE').html(parts.speedAndUnitStr);
+                            widget.$container.find('.THE_VALUE').html(parts.speedAndUnitStr);
                         }
                         else
                             showData = false;
@@ -121,10 +120,15 @@ widget.$container.find('.THE_VALUE').html(parts.speedAndUnitStr);
                 envBackground: envBackground,
 
                 header       : {icon: obsGroup.faIcon, iconClass:'obs-group-icon-container', text: this.name},
-                fixedHeader  : param.name, //without unit
+//                fixedHeader  : param.name, //without unit
                 //or
                 //fixedHeader  : obsGroup.header, //With unit
                 minimized: {
+                    noPadding: true,
+                    content  : ''
+                },
+
+                _minimized: {
                     fixed: true,
                     noPadding     : false,
 //HER                       content: inclDir ? [{content: '_DIRECTION_', size:'lg'}] : id,
