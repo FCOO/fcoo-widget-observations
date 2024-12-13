@@ -21,7 +21,8 @@
 
     //envBackgroundParam = {paramId: envBackgroundOptions or id}
     const envBackgroundParam = {
-        'surface_sea_water_velocity': 'sea_near_surface'
+        'surface_sea_water_velocity': 'sea_near_surface',
+        'sea_water_velocity'        : 'sea_near_surface'
     };
 
     nsObservations.updateLastObservationFuncList.push('updateLastObservation_widget');

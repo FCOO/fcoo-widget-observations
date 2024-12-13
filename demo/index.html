@@ -67,12 +67,13 @@
 
 //HER               console.log( fcooObservation, obsGroup );                
             
-            
+            var test = true;
             $.each( obsGroup.locations, (id, location) => {
-//                console.log(location);
-                location
-                    .getWidget(observationGroupId)
-                    .create().appendTo($list);                    
+                if (test)
+                    location
+                        .getWidget(observationGroupId)
+                        .create().appendTo($list);                    
+                test = false;                        
             });                
         }
 
