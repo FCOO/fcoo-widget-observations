@@ -47,16 +47,6 @@
         window.bsIsTouch = false;
         window.bsIsTouch = (window.location.search =='?touch');        
 
-        //TEMP: No access to data-files on AWS. Read from old location instead 
-        //TEMP: Static from bal.fcoo.dk and dynamic from app.fcoo.dk
-        window.fcoo.path.setPath({
-            host: {
-                dynamic : 'app.fcoo.dk',
-                static  : 'bal.fcoo.dk'
-            }                
-        });
-        
-    
         const body = $('body');
         let $list = $('<div id="theList"></div>').appendTo(body);
 
@@ -67,41 +57,22 @@
         });        
         
         
+        const observationGroupId = 'CURRENT_2M';
         let fcooObservation;
         function onLoad(){
             
-            let observationGroupId = 'CURRENT_2M';
             var obsGroup = fcooObservation.observationGroups[observationGroupId];
-
-//HER               console.log( fcooObservation, obsGroup );                
-            
-            var test = true;
             $.each( obsGroup.locations, (id, location) => {
-                if (test)
-                    location
-                        .getWidget(observationGroupId)
-                        .create().appendTo($list);                    
-                test = false;                        
+                location
+                    .getWidget(observationGroupId)
+                    .create().appendTo($list);                    
             });                
         }
 
 
 
-
-
         $(function() { 
-            fcooObservation = new window.fcoo.FCOOObservations({
-                fileName:[
-                    //'observations-sealevel.json',
-                    // 'observations-wind_TEST.json', 
-                    'observations-current.json'
-                ],
-
-                lastObservationFileName : ['LastObservations_SEALVL.json', 'LastObservations_CURRENT.json'],
-                geoJSONOptions: {
-                    pane: 'observations'
-                }
-            });
+            fcooObservation = new window.fcoo.FCOOObservations({forceGroupIds: observationGroupId});
 
             fcoo.promiseList.options.finally = function(){
                 fcoo.globalSetting.load(null, function(){
