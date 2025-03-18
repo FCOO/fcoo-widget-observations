@@ -37,6 +37,7 @@
         window.fcoo = window.fcoo || {};
         window.fcoo.DEMO_VERSION = true;
         window.fcoo.DEV_VERSION = true;
+        
 	</script>
 	<script src="bower_components.js"></script>
 	<script src="../src/fcoo-widget-observations.js"></script>
@@ -47,7 +48,14 @@
         window.bsIsTouch = (window.location.search =='?touch');        
 
         //TEMP: No access to data-files on AWS. Read from old location instead 
-        window.fcoo.path.setPath({host: 'bal.fcoo.dk'});
+        //TEMP: Static from bal.fcoo.dk and dynamic from app.fcoo.dk
+        window.fcoo.path.setPath({
+            host: {
+                dynamic : 'app.fcoo.dk',
+                static  : 'bal.fcoo.dk'
+            }                
+        });
+        
     
         const body = $('body');
         let $list = $('<div id="theList"></div>').appendTo(body);
@@ -62,7 +70,7 @@
         let fcooObservation;
         function onLoad(){
             
-            let observationGroupId = 'CURRENT_SURFACE';
+            let observationGroupId = 'CURRENT_2M';
             var obsGroup = fcooObservation.observationGroups[observationGroupId];
 
 //HER               console.log( fcooObservation, obsGroup );                

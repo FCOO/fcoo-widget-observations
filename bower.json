@@ -1,6 +1,6 @@
 {
   "name": "fcoo-widget-observations",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "homepage": "https://github.com/FCOO/fcoo-widget-observations",
   "authors": [
     "Niels Holt"
@@ -17,7 +17,7 @@
   "dependencies": {
     "jquery": "latest",
     "fcoo-widget": "fcoo/fcoo-widget#latest",
-    "fcoo-observations": "fcoo/fcoo-observations#^4.2.0"
+    "fcoo-observations": "fcoo/fcoo-observations#latest"
   },
   "devDependencies": {
     "bourbon": "latest",
